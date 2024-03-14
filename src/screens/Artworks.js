@@ -1,4 +1,4 @@
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, Image } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { getArtworksApi } from "../api/artwork";
 import ArtworkList from "../components/ArtworkList";
@@ -6,6 +6,7 @@ import ArtworkList from "../components/ArtworkList";
 export default function Artworks() {
 
     const [artworks, setArtworks] = useState([])
+    const [nextUrl, setNextUrl] = useState(null)
     // console.log("artworks", artworks)
 
     // Execute on each 
@@ -14,15 +15,18 @@ export default function Artworks() {
         (async () => {
             await loadArtworks();
         })()
+
     }, [])
 
     const loadArtworks = async () => {
         try {
-            const response = await getArtworksApi();
+            const response = await getArtworksApi(nextUrl);
+            setNextUrl(response.pagination.next_url)
             const artworksArray = [];
             setArtworks(artworksArray)
             for await (const artwork of response.data) {
                 if (artwork.image_id != null) {
+                    image_url = `https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`
                     artworksArray.push({
                         id: artwork.id,
                         title: artwork.title,
@@ -38,7 +42,7 @@ export default function Artworks() {
                         category_titles: artwork.category_titles,
                         term_titles: artwork.term_titles,
                         copyright_notice: artwork.copyright_notice,
-                        image: `https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`
+                        image: image_url,
                     })
                 }
                 setArtworks([...artworks, ...artworksArray])
@@ -50,7 +54,7 @@ export default function Artworks() {
 
     return (
         <SafeAreaView>
-            <ArtworkList artworks={artworks} />
+            <ArtworkList artworks={artworks} loadArtworks={loadArtworks} isNext={nextUrl} />
         </SafeAreaView>
     )
 }
