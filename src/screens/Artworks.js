@@ -1,4 +1,4 @@
-import { SafeAreaView, Image } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { getArtworksApi } from "../api/artwork";
 import ArtworkList from "../components/ArtworkList";

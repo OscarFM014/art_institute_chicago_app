@@ -1,36 +1,20 @@
 import { StyleSheet, View, Text, Image, TouchableWithoutFeedback } from 'react-native'
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useNavigation } from '@react-navigation/native';
 
 export default function ArtworkCard(props) {
-    const [cardWidth, setCardWidth] = useState(0)
-    const [imageWidth, setImageWidth] = useState(0);
-    const [imageHeight, setImageHeight] = useState(0);
     const { artwork } = props;
+    const navigation = useNavigation();
 
     const goToArtwork = () => {
-        console.log("Go to: ", artwork.title)
+        console.log("Go to: ", artwork.id);
+        navigation.navigate("Artwork")
     }
 
-    // const onLayout = (event) => {
-    //     const { width } = event.nativeEvent.layout;
-    //     setCardWidth(width)
-    //     Image.getSize(artwork.image, (width, height) => {
-    //         const aspectRatio = width / height;
-    //         const maxHeight = cardWidth / aspectRatio;
-    //         setImageWidth(width);
-    //         setImageHeight(Math.floor(maxHeight));
-    //     }, (error) => {
-    //         console.error('Error getting image dimensions:', error);
-    //     });
-    // }
-
     return (
-        <TouchableWithoutFeedback onPress={goToArtwork} onLayout={onLayout}>
-            <View style={{ ...styles.card }}>
-                {console.log(imageWidth, imageHeight, cardWidth)}
-
-                <Image source={{ uri: artwork.image }} style={{ ...styles.image, height: imageHeight }} />
+        <TouchableWithoutFeedback onPress={goToArtwork} >
+            <View style={styles.card}>
+                <Image source={{ uri: artwork.image }} style={styles.image} />
                 <Text style={styles.baseText}>{artwork.title} {artwork.date_display}</Text>
                 <Text style={[styles.baseText, styles.artistText]}>{artwork.artist_display}</Text>
             </View>
@@ -48,7 +32,8 @@ const styles = StyleSheet.create({
         elevation: 4,
     },
     image: {
-        // Adjust the height of the image
+        width: '100%',
+        height: 250,
         resizeMode: 'contain',
     },
     baseText: {

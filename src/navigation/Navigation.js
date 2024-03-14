@@ -2,23 +2,23 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Image } from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome5"
-import FavoriteScreen from '../screens/Favorite'
-import ArtworksScreen from '../screens/Artworks'
-import AccountScreen from '../screens/Account'
+import FavoriteNavigation from './FavoritesNavigation'
+import ArtworkNavigation from './ArtworkNavigation'
+import AccountNavigation from './AccountNavigation'
 
 const Tab = createBottomTabNavigator();
 export default function Navigation() {
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="Favorite" component={FavoriteScreen} options={{
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
+            <Tab.Screen name="Favorite" component={FavoriteNavigation} options={{
                 tabBarLabel: "Favorites",
                 tabBarIcon: ({ color, size }) => <Icon name="heart" color={color} size={size} />,
             }} />
-            <Tab.Screen name="Artworks" component={ArtworksScreen} options={{
+            <Tab.Screen name="Artworks" component={ArtworkNavigation} options={{
                 tabBarLabel: "",
                 tabBarIcon: () => renderIcon(),
             }} />
-            <Tab.Screen name="Account" component={AccountScreen} options={{
+            <Tab.Screen name="Account" component={AccountNavigation} options={{
                 tabBarLabel: "My Account",
                 tabBarIcon: ({ color, size }) => <Icon name="user" color={color} size={size} />,
             }} />
