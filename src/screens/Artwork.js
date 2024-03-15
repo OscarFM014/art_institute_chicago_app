@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { getArtworkById } from '../api/artwork';
 import Header from '../components/Artwork/Header';
 import Description from '../components/Artwork/Description';
-import Icon from "react-native-vector-icons/FontAwesome5"
+import Icon from "react-native-vector-icons/FontAwesome5";
+
 
 export default function Artwork(props) {
     const { route: { params }, navigation } = props
