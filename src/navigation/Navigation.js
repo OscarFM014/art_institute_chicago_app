@@ -9,16 +9,16 @@ import AccountNavigation from './AccountNavigation'
 const Tab = createBottomTabNavigator();
 export default function Navigation() {
     return (
-        <Tab.Navigator screenOptions={{ headerShown: false }}>
-            <Tab.Screen name="Favorite" component={FavoriteNavigation} options={{
+        <Tab.Navigator screenOptions={{ headerShown: false }} initialRouteName='ArtworksNavigation'>
+            <Tab.Screen name="FavoriteNavigation" component={FavoriteNavigation} options={{
                 tabBarLabel: "Favorites",
                 tabBarIcon: ({ color, size }) => <Icon name="heart" color={color} size={size} />,
             }} />
-            <Tab.Screen name="Artworks" component={ArtworkNavigation} options={{
+            <Tab.Screen name="ArtworksNavigation" component={ArtworkNavigation} options={{
                 tabBarLabel: "",
                 tabBarIcon: () => renderIcon(),
             }} />
-            <Tab.Screen name="Account" component={AccountNavigation} options={{
+            <Tab.Screen name="AccountNavigation" component={AccountNavigation} options={{
                 tabBarLabel: "My Account",
                 tabBarIcon: ({ color, size }) => <Icon name="user" color={color} size={size} />,
             }} />
