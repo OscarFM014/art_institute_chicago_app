@@ -6,7 +6,7 @@ export default function Description(props) {
     return (
         <View style={styles.container_description}>
             {Object.entries(props).map(([key, value]) => (
-                <View>
+                <View key={key}>
                     <View style={styles.line}></View>
                     <Text style={[styles.subtitleText, styles.subtitleTextA]}>{startCase(key.replace(/_/g, ' '))}</Text>
                     <Text style={[styles.subtitleText, styles.subtitleTextB]}>{value}</Text>

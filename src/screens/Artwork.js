@@ -4,17 +4,24 @@ import { getArtworkById } from '../api/artwork';
 import Header from '../components/Artwork/Header';
 import Description from '../components/Artwork/Description';
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { Auth } from 'aws-amplify';
 
 
 export default function Artwork(props) {
     const { route: { params }, navigation } = props
     const [artwork, setArtwork] = useState(null)
 
+    const getCurrentUserInfo = async () => {
+        const userInfo = await Auth.currentAuthenticatedUser()
+        console.log(userInfo.attributes.email)
+    }
+
     useEffect(() => {
         (async () => {
             try {
                 const response = await getArtworkById(params.id)
                 setArtwork(response.data)
+                getCurrentUserInfo()
             } catch (error) {
                 navigation.goBack();
             }
