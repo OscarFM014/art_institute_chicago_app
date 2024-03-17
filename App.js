@@ -10,14 +10,6 @@ Amplify.configure(awsconfig);
 // Instead of doing the const, use the App
 function App() {
 
-  async function signOut() {
-    try {
-      await Auth.signOut();
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   return (
     <NavigationContainer>
       <Navigation />
