@@ -5,14 +5,31 @@ import { useFormik } from "formik";
 // yup for validation
 import * as Yup from "yup";
 import { Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import awsconfig from '../../amplifyconfiguration.json';
+
+// Move here works the form
+Amplify.configure(awsconfig);
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [authError, setAuthError] = useState("");
 
     const handleSubmit = async () => {
-        const response = await Auth.signIn(email, password)
-        console.log(response)
+        // console.log(email, password)
+        // Error: response not returning anythign
+        // Solution: try catch use
+        setAuthError("")
+        try {
+            const response = await Auth.signIn(email, password)
+            console.log(response)
+            return response
+        } catch (error) {
+            // console.log(error)
+            setAuthError(error.message)
+        }
+
     }
 
     // Control form data
@@ -20,7 +37,7 @@ export default function LoginForm() {
         initialValues: iValue(),
         validationSchema: Yup.object(vSchema()),
         validateOnChange: false,
-        onSubmit: (formValues) => {
+        onSubmit: async (formValues) => {
             setEmail(formValues.email)
             setPassword(formValues.password)
             handleSubmit()
@@ -45,7 +62,7 @@ export default function LoginForm() {
                 value={formik.values.password}
                 onChangeText={(text) => { formik.setFieldValue('password', text) }}
             />
-            <Text style={styles.errors}>{formik.errors.email} {"\n"} {formik.errors.password}</Text>
+            <Text style={styles.errors}>{formik.errors.email} {"\n"} {formik.errors.password} {"\n"} {authError}</Text>
             <Button title="Login" onPress={formik.handleSubmit} />
 
         </View>
