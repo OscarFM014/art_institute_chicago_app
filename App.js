@@ -1,8 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import Navigation from './src/navigation/Navigation';
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from './src/amplifyconfiguration.json';
-import { withAuthenticator } from 'aws-amplify-react-native';
 
 // Move here works the form
 Amplify.configure(awsconfig);
@@ -17,4 +16,4 @@ function App() {
   );
 }
 
-export default withAuthenticator(App);
+export default App;

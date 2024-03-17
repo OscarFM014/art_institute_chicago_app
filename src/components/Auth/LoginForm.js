@@ -1,15 +1,29 @@
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
-import React from 'react';
+import React, { useState } from 'react';
+//Formik for controling the data from forms
 import { useFormik } from "formik";
+// yup for validation
 import * as Yup from "yup";
+import { Auth } from 'aws-amplify';
 
 export default function LoginForm() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = async () => {
+        const response = await Auth.signIn(email, password)
+        console.log(response)
+    }
+
     // Control form data
     const formik = useFormik({
         initialValues: iValue(),
         validationSchema: Yup.object(vSchema()),
+        validateOnChange: false,
         onSubmit: (formValues) => {
-            console.log(formValues)
+            setEmail(formValues.email)
+            setPassword(formValues.password)
+            handleSubmit()
         }
     })
 
@@ -31,8 +45,7 @@ export default function LoginForm() {
                 value={formik.values.password}
                 onChangeText={(text) => { formik.setFieldValue('password', text) }}
             />
-            <Text>{console.log(formik.errors.email)}</Text>
-            <Text>{console.log(formik.errors.password)}</Text>
+            <Text style={styles.errors}>{formik.errors.email} {"\n"} {formik.errors.password}</Text>
             <Button title="Login" onPress={formik.handleSubmit} />
 
         </View>
@@ -43,7 +56,7 @@ export default function LoginForm() {
 function vSchema() {
     return {
         email: Yup.string().required("Required email").email("Invalid email"),
-        password: Yup.string().required("Required password").min("Password too short", 3)
+        password: Yup.string().required("Required password").min(3, "Password too short")
     }
 }
 
@@ -69,5 +82,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         borderRadius: 5
+    },
+    errors: {
+        textAlign: "center",
+        color: "red",
+        margin: 20
     }
 })
