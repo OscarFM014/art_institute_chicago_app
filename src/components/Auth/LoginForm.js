@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { Auth } from 'aws-amplify';
 import { Amplify } from 'aws-amplify';
 import awsconfig from '../../amplifyconfiguration.json';
+import useAuth from '../../hooks/useAuth';
 
 // Move here works the form
 Amplify.configure(awsconfig);
@@ -15,6 +16,8 @@ export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [authError, setAuthError] = useState("");
+    const { login } = useAuth();
+    // console.log("LoginForm.js:20:", useAuth())
 
     const handleSubmit = async () => {
         // console.log(email, password)
@@ -23,8 +26,7 @@ export default function LoginForm() {
         setAuthError("")
         try {
             const response = await Auth.signIn(email, password)
-            console.log(response)
-            return response
+            login(response);
         } catch (error) {
             // console.log(error)
             setAuthError(error.message)
@@ -62,7 +64,7 @@ export default function LoginForm() {
                 value={formik.values.password}
                 onChangeText={(text) => { formik.setFieldValue('password', text) }}
             />
-            <Text style={styles.errors}>{formik.errors.email} {"\n"} {formik.errors.password} {"\n"} {authError}</Text>
+            <Text style={styles.errors}>{formik.errors.email}{"\n"}{formik.errors.password}{"\n"}{authError}</Text>
             <Button title="Login" onPress={formik.handleSubmit} />
 
         </View>
