@@ -13,25 +13,25 @@ import useAuth from '../../hooks/useAuth';
 Amplify.configure(awsconfig);
 
 export default function LoginForm() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
     const [authError, setAuthError] = useState("");
     const { login } = useAuth();
     // console.log("LoginForm.js:20:", useAuth())
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (email, password) => {
         // console.log(email, password)
         // Error: response not returning anythign
         // Solution: try catch use
         setAuthError("")
         try {
-            const response = await Auth.signIn(email, password)
+            // TODO: Why didn't get the response on the first try?
+            const response = await Auth.signIn(email, password);
             login(response);
         } catch (error) {
             // console.log(error)
-            setAuthError(error.message)
+            setAuthError(error.message);
         }
-
     }
 
     // Control form data
@@ -40,9 +40,9 @@ export default function LoginForm() {
         validationSchema: Yup.object(vSchema()),
         validateOnChange: false,
         onSubmit: async (formValues) => {
-            setEmail(formValues.email)
-            setPassword(formValues.password)
-            handleSubmit()
+            // setEmail(formValues.email)
+            // setPassword(formValues.password)
+            handleSubmit(formValues.email, formValues.password)
         }
     })
 

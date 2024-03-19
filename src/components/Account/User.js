@@ -5,6 +5,8 @@ import userAuth from "../../hooks/useAuth";
 
 export default function User() {
     const { auth, logout } = userAuth();
+
+    // TODO: How to implement this on the logout?
     const handleSignOut = async () => {
         try {
             await Auth.signOut();
@@ -21,9 +23,24 @@ export default function User() {
                 {/* It didn't ask for the username in the sign up */}
                 <Text style={styles.title}>Welcome!</Text>
             </View>
-            {/* <Button title="Sign Out" onPress={handleSignOut} /> */}
-        </View>
+            <View style={styles.dataContent}>
+                <ItemMenu title="Email" text={auth.attributes.email} />
+                <ItemMenu title="Phone Number" text={auth.attributes.phone_number} />
+                <ItemMenu title="Favorites" text="0 artworks" />
+            </View>
+            <Button title="Logout" onPress={logout} />
+        </View >
     )
+}
+
+function ItemMenu(props) {
+    const { title, text } = props;
+    return (
+        <View style={styles.itemMenu}>
+            <Text style={styles.itemMenuTitle}>{title}</Text>
+            <Text>{text}</Text>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -37,5 +54,24 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: "bold",
         fontSize: 22
+    },
+    text: {
+        fontWeight: "300",
+        fontSize: 15
+    },
+    dataContent: {
+        marginBottom: 20,
+    },
+    itemMenu: {
+        flexDirection: "row",
+        paddingVertical: 20,
+        borderBottomWidth: 1,
+        borderColor: "#CFCFCF",
+        // backgroundColor: "red"
+    },
+    itemMenuTitle: {
+        fontWeight: "bold",
+        paddingRight: 10,
+        width: 120
     }
 })
