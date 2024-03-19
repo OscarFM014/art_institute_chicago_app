@@ -4,20 +4,20 @@ import { getArtworkById } from '../api/artwork';
 import Header from '../components/Artwork/Header';
 import Description from '../components/Artwork/Description';
 import Icon from "react-native-vector-icons/FontAwesome5";
+import Favorite from '../components/Artwork/Favorite';
+import useAuth from "../hooks/useAuth";
 
 
 export default function Artwork(props) {
     const { route: { params }, navigation } = props
     const [artwork, setArtwork] = useState(null)
-
-
+    const { auth } = useAuth();
 
     useEffect(() => {
         (async () => {
             try {
                 const response = await getArtworkById(params.id)
                 setArtwork(response.data)
-
             } catch (error) {
                 navigation.goBack();
             }
@@ -26,7 +26,7 @@ export default function Artwork(props) {
 
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => null,
+            headerRight: () => auth && <Favorite id={artwork?.main_reference_number} />,
             headerLeft: () => (
                 <Icon
                     name="arrow-left"
@@ -36,7 +36,7 @@ export default function Artwork(props) {
                     onPress={() => { navigation.goBack() }} />
             )
         });
-    }, [navigation, params])
+    }, [navigation, params, auth, artwork])
 
     if (!artwork) return null;
     return (
