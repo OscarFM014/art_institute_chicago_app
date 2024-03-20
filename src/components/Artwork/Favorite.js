@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { addArtworkFavoriteApi, isArtworkFavoriteApi } from "../../api/favorite"
+import { addArtworkFavoriteApi, isArtworkFavoriteApi, removeArtwokFavoriteApi } from "../../api/favorite"
 
 export default function Favorite(props) {
     const { id } = props
     const [isFavorite, setIsFavorite] = useState(undefined);
+    const [reloadCheck, setReloadCheck] = useState(false)
 
     const Icon = isFavorite ? FontAwesome : FontAwesome5;
 
@@ -18,18 +19,28 @@ export default function Favorite(props) {
                 setIsFavorite(false)
             }
         })();
-    }, [id])
+    }, [id, reloadCheck])
+
+    const onReloadCheckFavorite = () => {
+        setReloadCheck((prev) => !prev)
+    }
 
     const addFavorite = async () => {
         try {
             await addArtworkFavoriteApi(id);
+            onReloadCheckFavorite();
         } catch (error) {
             console.error(error)
         }
     }
 
     const removeFavorite = async () => {
-        console.log("Favorites.js:32 remove favorite")
+        try {
+            await removeArtwokFavoriteApi(id);
+            onReloadCheckFavorite();
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
