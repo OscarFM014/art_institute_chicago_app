@@ -23,7 +23,6 @@ export default function Artworks() {
             const response = await getArtworksApi(nextUrl);
             setNextUrl(response.pagination.next_url)
             const artworksArray = [];
-            setArtworks(artworksArray)
             for await (const artwork of response.data) {
                 if (artwork.image_id != null) {
                     image_url = `https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`
@@ -45,8 +44,8 @@ export default function Artworks() {
                         image: image_url,
                     })
                 }
-                setArtworks([...artworks, ...artworksArray])
             }
+            setArtworks([...artworks, ...artworksArray])
         } catch (error) {
             console.error(error)
         }

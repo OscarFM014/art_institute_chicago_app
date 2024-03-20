@@ -7,7 +7,6 @@ export default function ArtworkCard(props) {
     const navigation = useNavigation();
 
     const goToArtwork = () => {
-        console.log("Go to: ", artwork.id);
         navigation.navigate("Artwork", { id: artwork.id })
     }
 
