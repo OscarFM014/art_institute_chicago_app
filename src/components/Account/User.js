@@ -1,10 +1,27 @@
 import { View, Text, Button, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
 import userAuth from "../../hooks/useAuth";
+import { size } from 'lodash';
+import { getArtworkFavoriteApi } from "../../api/favorite"
 
 export default function User() {
     const { auth, logout } = userAuth();
+    const [total, setTotal] = useState(0);
+
+    useFocusEffect(
+        useCallback(() => {
+            (async () => {
+                try {
+                    const response = await getArtworkFavoriteApi();
+                    setTotal(size(response))
+                } catch (error) {
+                    setTotal(0)
+                }
+            })()
+        }, [])
+    )
 
     // TODO: How to implement this on the logout?
     const handleSignOut = async () => {
@@ -26,7 +43,7 @@ export default function User() {
             <View style={styles.dataContent}>
                 <ItemMenu title="Email" text={auth.attributes.email} />
                 <ItemMenu title="Phone Number" text={auth.attributes.phone_number} />
-                <ItemMenu title="Favorites" text="0 artworks" />
+                <ItemMenu title="Favorites" text={`${total} artworks`} />
             </View>
             <Button title="Logout" onPress={logout} />
         </View >
