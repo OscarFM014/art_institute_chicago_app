@@ -5,6 +5,7 @@ import { getArtworkById } from '../api/artwork'
 import useAuth from "../hooks/useAuth"
 import ArtworkList from '../components/ArtworkList'
 import { useFocusEffect } from '@react-navigation/native'
+import NotLogged from '../components/NotLogged'
 
 export default function Favorite() {
     const [artworks, setArtworks] = useState([])
@@ -16,7 +17,7 @@ export default function Favorite() {
                 (async () => {
                     const response = await getArtworkFavoriteApi();
                     const artworksArray = [];
-                    setArtworks(artworksArray)
+                    setArtworks([...artworks, ...artworksArray])
                     for await (const id of response) {
                         const artwork = await getArtworkById(id)
                         if (artwork.data.image_id) {
@@ -50,7 +51,7 @@ export default function Favorite() {
     return (
         !auth
             ?
-            <Text>Login to get your favorites artworks</Text>
+            <NotLogged />
             :
             <ArtworkList artworks={artworks} />
     )
