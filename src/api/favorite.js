@@ -1,12 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Include, pull } from "lodash";
+import { includes, pull } from "lodash";
 import { FAVORITE_STORAGE } from "../utils/constants";
 // {} named packages; default packages
 
 export async function getArtworkFavoriteApi() {
     try {
         const response = await AsyncStorage.getItem(FAVORITE_STORAGE);
-        return response;
+        return JSON.parse(response || []);
     } catch (error) {
         throw error
     }
@@ -14,9 +14,19 @@ export async function getArtworkFavoriteApi() {
 
 export async function addArtworkFavoriteApi(id) {
     try {
-        const favorites = [];
+        const favorites = await getArtworkFavoriteApi();
         favorites.push(id);
+        console.log("favorite.js:19", favorites)
         await AsyncStorage.setItem(FAVORITE_STORAGE, JSON.stringify(favorites));
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function isArtworkFavoriteApi(id) {
+    try {
+        const response = await getArtworkFavoriteApi();
+        return includes(response, id)
     } catch (error) {
         throw error
     }
