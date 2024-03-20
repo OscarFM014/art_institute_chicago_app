@@ -26,7 +26,7 @@ export default function Artwork(props) {
 
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => auth && <Favorite id={artwork?.main_reference_number} />,
+            headerRight: () => auth && <Favorite id={artwork?.id} />,
             headerLeft: () => (
                 <Icon
                     name="arrow-left"

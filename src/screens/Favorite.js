@@ -1,7 +1,17 @@
 import { SafeAreaView, Text } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { getArtworkFavoriteApi } from '../api/favorite'
 
 export default function Favorite() {
+    const [favorites, setFavorites] = useState(null)
+
+    useEffect(() => {
+        (async () => {
+            const response = await getArtworkFavoriteApi();
+            console.log(response)
+        })()
+    })
+
     return (
         <SafeAreaView>
             <Text>Favorite</Text>
