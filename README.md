@@ -2,12 +2,7 @@
 In the app you can all the artworks and select your favorites ones. The main purpose was to learn how to build an app using React Native, AWS Amplify and Cognito to use it in future projects.
 
 The app uses [The Art Institute of Chicago API](https://api.artic.edu/docs/#introduction) in order to show all the artworks that the institute has. It also contains a Favorite screen where users can add it if they are logged using the Account screen:
-
-![](https://raw.githubusercontent.com/OscarFM014/art_institute_chicago_app/main/screenshots/1.PNG)
-![](https://raw.githubusercontent.com/OscarFM014/art_institute_chicago_app/main/screenshots/2.PNG)
-![](https://raw.githubusercontent.com/OscarFM014/art_institute_chicago_app/main/screenshots/3.jpg)
-
-
+<img src="https://raw.githubusercontent.com/OscarFM014/art_institute_chicago_app/main/screenshots/1.PNG" alt="1" style="display: inline-block" height="400"/><img src="https://raw.githubusercontent.com/OscarFM014/art_institute_chicago_app/main/screenshots/2.PNG"  style="display: inline-block" alt="2" height="400"/><img src="https://raw.githubusercontent.com/OscarFM014/art_institute_chicago_app/main/screenshots/3.jpg"  style="display: inline-block;" alt="3" height="400"/>
 
 ## Getting Started 🚀
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
